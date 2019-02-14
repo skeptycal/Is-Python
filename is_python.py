@@ -20,27 +20,25 @@
 ############################################################################'''
 import os
 
+
 def python_shell():
 
-    # import os
     env = os.environ
     shell = 'shell'
     program = os.path.basename(env['_'])
 
     if 'jupyter-notebook' in program:
         shell = 'jupyter-notebook'
-        # The original code (below) had odd logic:
-        # checking twice for JPY_PARENT_PID in env ... so I changed it a bit:
     elif 'ipython' in program:
         shell = "ipython"
-        if 'JPY_PARENT_PID' in env:
-            shell = 'ipython-notebook'
+    elif 'JPY_PARENT_PID' in env:
+        shell = 'ipython-notebook'
     return shell
 
 
 # ! TEST
 # ! REMOVE THIS
-print(python_shell())
+print("The type of python shell you are using is: ", python_shell(), ".")
 
 ''' python_shell() returns
 
@@ -51,12 +49,14 @@ print(python_shell())
 '''
 
 ''' Modifications: 
+
     * The logic was clarified (removed double check for JPY_PARENT_PID in env)
     * "import os" placed outside of the function body since it will always be
        required by this module and highly likely will be required by any program
        that is concerned with which shell called it.
 
     Sources:
+
     * Weigel, Bob, <post reply>,https://stackoverflow.com/a/53436734/9878098, accessed 2/13/19
       Quote: "The following captures the cases of https://stackoverflow.com/a/50234148/1491619 
       without needing to parse the output of ps" 
