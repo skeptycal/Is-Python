@@ -11,12 +11,20 @@
     'ipython' (started ipython on command line using "ipython")
     'ipython-notebook' (e.g., running in Spyder or started with "ipython qtconsole")
     'Jupyter Notebook' (running in a Jupyter notebook)
-    
+
+    sets PY3 (boolean) to True or False
+
     Copyright (C) 2019  Michael Treanor <https://www.github.com/skeptycal>
     License GPL3.0
 
 ###############################################################################
 '''
+import os
+import sys
+
+PY3 = sys.version_info[0] >= 3
+
+
 def python_shell():
     import os
     try:
@@ -38,10 +46,16 @@ def python_shell():
         shell = "ipython"
     elif im_plat:
         shell = platform.python_implementation()
-    return shell
+    return shell.strip()
 
-# ! TEST - REMOVE THIS
-print("The type of python shell you are using is: ", python_shell(), ".")
+
+if __name__ == "__main__":
+    # ? TEST to use if script is run from the command line
+    print("The type of python shell you are using is: ",python_shell(),".",sep='')
+    if PY3:
+        print("The python version is >= 3")
+    else:
+        print("The python version is < 3")
 
 
 '''############################################################################
@@ -72,17 +86,10 @@ License: GPL3.0
 ############################################################################'''
 
 '''############################################################################
-Modifications: 
-    * The logic in the main example was clarified 
-      (removed double check for JPY_PARENT_PID in env)
-    * "import os" placed outside of the function body since it will always be
-       required by this module and highly likely will be required by any program
-       that is concerned with which shell called it.
-
 Research sources:
     * https://stackoverflow.com/a/53436734/9878098
-      Quote: "The following captures the cases of https://stackoverflow.com/a/50234148/1491619 
-      without needing to parse the output of ps" 
+      Quote: "The following captures the cases of https://stackoverflow.com/a/50234148/1491619
+      without needing to parse the output of ps"
       -- Bob Weigel (https://stackoverflow.com/users/1491619/bob-weigel)
-    * See also https://stackoverflow.com/a/37661854 
+    * See also https://stackoverflow.com/a/37661854
 ############################################################################'''
