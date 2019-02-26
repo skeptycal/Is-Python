@@ -12,7 +12,7 @@
     'ipython-notebook' (e.g., running in Spyder or started with "ipython qtconsole")
     'Jupyter Notebook' (running in a Jupyter notebook)
 
-    sets PY3 (boolean) to True or False
+    bonus utility: sets PY3 (boolean) to True or False for python version >= 3.0
 
     Copyright (C) 2019  Michael Treanor <https://www.github.com/skeptycal>
     License GPL3.0
