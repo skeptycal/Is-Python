@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 # -*- encoding: utf-8 -*-
 import sys
+import text_colors
+from typing import Dict, List  # pylint: disable=unused-import
+
 """ ╔═════ DOCBLOCK ═════╦════ CODE SUMMARY ════╗
     ║                    ║                      ║
     ║   => TEST INFO:    ║    is_python.py      ║
@@ -19,12 +22,11 @@ import sys
     ║     link        ║    http://www.github.com/skeptycal                     ║
     ║                                                                          ║
     ╚══════════════════════════════════════════════════════════════════════════╝
-        Determine and return python shell environment and version information
+        Determine and return python shell environment and version information.
 
-        The obligatory Python training module to add CLI ANSI color and other escape code formatting constants. References are at the end of the file.
+        References are at the end of the file.
         """
 
-from typing import Dict, List  # pylint: disable=unused-import
 
 """ ╔═════════ Parameters : ═══════════════════════════════════════════════════╗
 
@@ -91,6 +93,10 @@ def py_shell():
         shell = "shell"
     print("pyshell() output: ", shell.strip())
     return shell.strip()
+
+BG_COLOR = 
+PURPLE = FG_DICT['PURPLE']
+BLUE = FG_DICT['COOL']+
 
 
 BG_COLOR = '\u001b[48;5;230m'
