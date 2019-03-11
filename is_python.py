@@ -1,95 +1,140 @@
 #!/usr/bin/env python3
-'''
-###############################################################################
-   python_shell.py - Python3 returns a string containing the parent shell
+# -*- encoding: utf-8 -*-
+import sys
+""" ╔═════ DOCBLOCK ═════╦════ CODE SUMMARY ════╗
+    ║                    ║                      ║
+    ║   => TEST INFO:    ║    is_python.py      ║
+    ║   ProductName:     ║    Mac OS X          ║
+    ║   ProductVersion:  ║    10.14.3           ║
+    ║   BuildVersion:    ║    18D109            ║
+    ║   Date:            ║    02-13-2019        ║
+    ║                    ║                      ║
+    ╚═══ LICENSE: MIT ═══╩═════ @skeptycal ═════╝
 
-###############################################################################
-    requires no parameters
+    ╔═════════ Module is_python.py ════════════════════════════════════════════╗
+    ║                                                                          ║
+    ║     author      ║    Michael Treanor  <skeptycal@gmail.com>              ║
+    ║     copyright   ║    (c) 2019 Michael Treanor                            ║
+    ║     license     ║    MIT <https://opensource.org/licenses/MIT>           ║
+    ║     link        ║    http://www.github.com/skeptycal                     ║
+    ║                                                                          ║
+    ╚══════════════════════════════════════════════════════════════════════════╝
+        Determine and return python shell environment and version information
 
-    returns
+        The obligatory Python training module to add CLI ANSI color and other escape code formatting constants. References are at the end of the file.
+        """
+
+from typing import Dict, List  # pylint: disable=unused-import
+
+""" ╔═════════ Parameters : ═══════════════════════════════════════════════════╗
+
+    requires no input parameters
+
+    python_shell() returns
     'shell' (started python on command line using "python")
     'ipython' (started ipython on command line using "ipython")
-    'ipython-notebook' (e.g., running in Spyder or started with "ipython qtconsole")
+    'ipython-notebook' (e.g., running in Spyder or started
+        with "ipython qtconsole")
     'Jupyter Notebook' (running in a Jupyter notebook)
 
-    bonus utility: sets PY3 (boolean) to True or False for python version >= 3.0
+    bonus utility:
+        sets PY3 (bool) to True or False for python version >= 3.0
+    """
 
-    Copyright (C) 2019  Michael Treanor <https://www.github.com/skeptycal>
-    License GPL3.0
-
-###############################################################################
-'''
-import os
-import sys
-
-PY3 = sys.version_info[0] >= 3
+# Initialization Section - only run once during initial import or CLI run
 
 
-def python_shell():
+def py3():
+    """ Returns boolean: Is python version >= 3? """
+
+    import sys
+    return sys.version_info[0] >= 3
+
+def py_vers():
+    """ Returns float: python version <major>.<minor> """
+
+    import sys
+    PY_VER = sys.version_info
+    return float(str(PY_VER[0]) + '.' + str(PY_VER[1]))
+
+def is_nb():
+    """ Returns boolean: Is python running in a Jupyter notebook? """
+    import os
+
+    if "jupyter-notebook" in os.path.basename(os.environ['_']):
+        return True
+    else:
+        return False
+
+def py_shell():
+    """ Returns string: Current python shell name. """
     import os
     try:
         import platform
     except ImportError:
-        im_plat = False
+        IM_PLAT = False
     else:
-        im_plat = True
+        IM_PLAT = True
 
-    env = os.environ
-    shell = 'shell'
-    program = os.path.basename(env['_'])
+    PY_ENV = os.environ
+    PY_BASE = os.path.basename(PY_ENV['_'])
 
-    if 'jupyter-notebook' in program:
-        shell = 'Jupyter Notebook'
-    elif 'JPY_PARENT_PID' in env:
-        shell = 'ipython-notebook'
-    elif 'ipython' in program:
+    if "JPY_PARENT_PID" in PY_ENV:
+        shell = "ipython-notebook"
+    elif "jupyter-notebook" in PY_BASE:
+        shell = "jupyter notebook"
+    elif "ipython" in PY_BASE:
         shell = "ipython"
-    elif im_plat:
+    elif IM_PLAT:
         shell = platform.python_implementation()
+    else:
+        shell = "shell"
+    print("pyshell() output: ", shell.strip())
     return shell.strip()
 
 
+BG_COLOR = '\u001b[48;5;230m'
+HEADER = '\u001b[38;5;18m' + BG_COLOR
+BLUE = '\u001b[38;5;27m' + BG_COLOR
+PURPLE = '\u001b[38;5;92m'
+RESET = '\u001b[0m'
+
 if __name__ == "__main__":
     # ? TEST to use if script is run from the command line
-    print("The type of python shell you are using is: ",python_shell(),".",sep='')
-    if PY3:
-        print("The python version is >= 3")
-    else:
-        print("The python version is < 3")
+    print(BLUE)
+    print("Test output for is_python module:")
+    print("MIT license  |  copyright (c) 2018 Michael Treanor")
+    print("<https://www.github.com/skeptycal>")
+    print()
+    print("The type of python shell you are using is: ", HEADER,
+          py_shell(), BLUE, ".", sep='')
+    print(BLUE)
+    for x in sys.version_info:
+        print("Python version part is: ", HEADER, x, BLUE, sep='')
+
+    print("Python reports version is: ", HEADER, sys.version_info, BLUE, sep='')
+    print("Python reports <major.minor> version is: ", HEADER, py_vers(), BLUE, sep='')
+    print("PY3 says python version is >= 3? ", HEADER, py3(), BLUE, sep='')
+    print("is_nb() reports jupyter notebook? ", HEADER, is_nb(), BLUE, sep='')
+    print(RESET)
 
 
-'''############################################################################
-Testing complete 2/14/19
-    macOS Mojave       10.14.3
-    jupyter --version    4.4.0
-    ipython --version    7.2.0
-    spyder(anaconda)     3.3.2
-    python --version     3.7.2
-    PyPy3 --version      6.0.0
-############################################################################'''
+""" ╔═════════ Testing complete 2/14/19: ══════════════════════════════════════╗
 
-'''############################################################################
-License: GPL3.0
+        macOS Mojave       10.14.3
+        jupyter --version    4.4.0
+        ipython --version    7.2.0
+        spyder(anaconda)     3.3.2
+        python --version     3.7.2
+        PyPy3 --version      6.0.0
+    """
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+""" ╔═════════ Resources: ═════════════════════════════════════════════════════╗
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-############################################################################'''
-
-'''############################################################################
-Research sources:
-    * https://stackoverflow.com/a/53436734/9878098
-      Quote: "The following captures the cases of https://stackoverflow.com/a/50234148/1491619
-      without needing to parse the output of ps"
-      -- Bob Weigel (https://stackoverflow.com/users/1491619/bob-weigel)
-    * See also https://stackoverflow.com/a/37661854
-############################################################################'''
+        * https://stackoverflow.com/a/53436734/9878098
+          Quote: "The following captures the cases of
+            https://stackoverflow.com/a/50234148/1491619
+            without needing to parse the output of ps"
+          -- Bob Weigel (https://stackoverflow.com/users/1491619/bob-weigel)
+        * See also https://stackoverflow.com/a/37661854
+    """
