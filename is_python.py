@@ -1,8 +1,26 @@
 #!/usr/bin/env python3
 # -*- encoding: utf-8 -*-
-import sys
+"""[is_python.py]
+
+Returns:
+    py_shell():
+        Returns string: Current python shell name. One of:
+            ['Ipython', 'Ipython Notebook', 'Jupyter Notebook', ‘CPython’, ‘IronPython’, ‘Jython’, ‘PyPy’, 'Shell']
+
+    py3():
+        Returns boolean: Is python version >= 3?
+
+    py_vers():
+        Returns float: python version <major>.<minor>
+
+    is_nb():
+        Returns boolean: Is python running in a Jupyter notebook?
+
+"""
+# pylint: disable=locally-disabled, multiple-statements, fixme, line-too-long, unused-import, reimported, redefined-outer-name
+from typing import Dict, List
 import text_colors
-from typing import Dict, List  # pylint: disable=unused-import
+
 
 """ ╔═════ DOCBLOCK ═════╦════ CODE SUMMARY ════╗
     ║                    ║                      ║
@@ -28,49 +46,30 @@ from typing import Dict, List  # pylint: disable=unused-import
         """
 
 
-""" ╔═════════ Parameters : ═══════════════════════════════════════════════════╗
-
-    requires no input parameters
-
-    python_shell() returns
-    'shell' (started python on command line using "python")
-    'ipython' (started ipython on command line using "ipython")
-    'ipython-notebook' (e.g., running in Spyder or started
-        with "ipython qtconsole")
-    'Jupyter Notebook' (running in a Jupyter notebook)
-
-    bonus utility:
-        sets PY3 (bool) to True or False for python version >= 3.0
-    """
-
 # Initialization Section - only run once during initial import or CLI run
 
 
 def py3():
     """ Returns boolean: Is python version >= 3? """
 
-    import sys
-    return sys.version_info[0] >= 3
+    from sys import version_info
+    return version_info[0] >= 3
 
 def py_vers():
     """ Returns float: python version <major>.<minor> """
 
-    import sys
-    PY_VER = sys.version_info
-    return float(str(PY_VER[0]) + '.' + str(PY_VER[1]))
+    from sys import version_info
+    return float(str(version_info[0]) + '.' + str(version_info[1]))
 
 def is_nb():
     """ Returns boolean: Is python running in a Jupyter notebook? """
-    import os
+    from os import environ, path
 
-    if "jupyter-notebook" in os.path.basename(os.environ['_']):
-        return True
-    else:
-        return False
+    return "jupyter-notebook" in path.basename(environ['_'])
 
 def py_shell():
     """ Returns string: Current python shell name. """
-    import os
+    from os import environ, path
     try:
         import platform
     except ImportError:
@@ -78,10 +77,10 @@ def py_shell():
     else:
         IM_PLAT = True
 
-    PY_ENV = os.environ
-    PY_BASE = os.path.basename(PY_ENV['_'])
+    # PY_ENV = os.environ
+    PY_BASE = path.basename(environ['_'])
 
-    if "JPY_PARENT_PID" in PY_ENV:
+    if "JPY_PARENT_PID" in environ:
         shell = "ipython-notebook"
     elif "jupyter-notebook" in PY_BASE:
         shell = "jupyter notebook"
@@ -94,19 +93,17 @@ def py_shell():
     print("pyshell() output: ", shell.strip())
     return shell.strip()
 
-BG_COLOR = 
-PURPLE = FG_DICT['PURPLE']
-BLUE = FG_DICT['COOL']+
-
 
 BG_COLOR = '\u001b[48;5;230m'
 HEADER = '\u001b[38;5;18m' + BG_COLOR
 BLUE = '\u001b[38;5;27m' + BG_COLOR
-PURPLE = '\u001b[38;5;92m'
+PURPLE = '\u001b[38;5;92m' + BG_COLOR
 RESET = '\u001b[0m'
 
 if __name__ == "__main__":
     # ? TEST to use if script is run from the command line
+    from sys import version_info
+
     print(BLUE)
     print("Test output for is_python module:")
     print("MIT license  |  copyright (c) 2018 Michael Treanor")
@@ -115,10 +112,11 @@ if __name__ == "__main__":
     print("The type of python shell you are using is: ", HEADER,
           py_shell(), BLUE, ".", sep='')
     print(BLUE)
-    for x in sys.version_info:
+    for x in version_info:
         print("Python version part is: ", HEADER, x, BLUE, sep='')
+    print()
 
-    print("Python reports version is: ", HEADER, sys.version_info, BLUE, sep='')
+    print("Python reports version is: ", HEADER, version_info, BLUE, sep='')
     print("Python reports <major.minor> version is: ", HEADER, py_vers(), BLUE, sep='')
     print("PY3 says python version is >= 3? ", HEADER, py3(), BLUE, sep='')
     print("is_nb() reports jupyter notebook? ", HEADER, is_nb(), BLUE, sep='')
