@@ -19,8 +19,8 @@ Returns:
 """
 # pylint: disable=locally-disabled, multiple-statements, fixme, line-too-long, unused-import, reimported, redefined-outer-name
 from typing import Dict, List
-import text_colors
 
+import text_colors
 
 """ ╔═════ DOCBLOCK ═════╦════ CODE SUMMARY ════╗
     ║                    ║                      ║
