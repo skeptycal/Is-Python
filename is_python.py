@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- encoding: utf-8 -*-
+
 """[is_python.py]
 
 Returns:
@@ -19,7 +20,6 @@ Returns:
 """
 # pylint: disable=locally-disabled, multiple-statements, fixme, line-too-long, unused-import, reimported, redefined-outer-name
 from typing import Dict, List
-
 import text_colors
 
 """ ╔═════ DOCBLOCK ═════╦════ CODE SUMMARY ════╗
@@ -53,40 +53,46 @@ def py3():
     """ Returns boolean: Is python version >= 3? """
 
     from sys import version_info
+
     return version_info[0] >= 3
+
 
 def py_vers():
     """ Returns float: python version <major>.<minor> """
 
     from sys import version_info
-    return float(str(version_info[0]) + '.' + str(version_info[1]))
+
+    return float(str(version_info[0]) + "." + str(version_info[1]))
+
 
 def is_nb():
     """ Returns boolean: Is python running in a Jupyter notebook? """
     from os import environ, path
 
-    return "jupyter-notebook" in path.basename(environ['_'])
+    return "jupyter-notebook" in path.basename(environ["_"])
+
 
 def py_shell():
     """ Returns string: Current python shell name. """
     from os import environ, path
+
     try:
         import platform
     except ImportError:
-        IM_PLAT = False
+        im_plat = False
     else:
-        IM_PLAT = True
+        im_plat = True
 
     # PY_ENV = os.environ
-    PY_BASE = path.basename(environ['_'])
+    py_base = path.basename(environ["_"])
 
     if "JPY_PARENT_PID" in environ:
         shell = "ipython-notebook"
-    elif "jupyter-notebook" in PY_BASE:
+    elif "jupyter-notebook" in py_base:
         shell = "jupyter notebook"
-    elif "ipython" in PY_BASE:
+    elif "ipython" in py_base:
         shell = "ipython"
-    elif IM_PLAT:
+    elif im_plat:
         shell = platform.python_implementation()
     else:
         shell = "shell"
@@ -94,11 +100,25 @@ def py_shell():
     return shell.strip()
 
 
-BG_COLOR = '\u001b[48;5;230m'
-HEADER = '\u001b[38;5;18m' + BG_COLOR
-BLUE = '\u001b[38;5;27m' + BG_COLOR
-PURPLE = '\u001b[38;5;92m' + BG_COLOR
-RESET = '\u001b[0m'
+""" VSCode Functionality Test ...
+
+    # tested fc snippet below here ... 
+    # this is the original ... 
+    # it replaced my esc code with that little esc ...
+    # kinda cool and interesting
+
+    BG_COLOR = '\u001b[48;5;230m'
+    HEADER = '\u001b[38;5;18m' + BG_COLOR
+    BLUE = '\u001b[38;5;27m' + BG_COLOR
+    PURPLE = '\u001b[38;5;92m' + BG_COLOR
+    RESET = '\u001b[0m'
+    """
+
+BG_COLOR = "[48;5;230m"
+HEADER = "[38;5;18m" + BG_COLOR
+BLUE = "[38;5;27m" + BG_COLOR
+PURPLE = "[38;5;92m" + BG_COLOR
+RESET = "[0m"
 
 if __name__ == "__main__":
     # ? TEST to use if script is run from the command line
@@ -109,17 +129,23 @@ if __name__ == "__main__":
     print("MIT license  |  copyright (c) 2018 Michael Treanor")
     print("<https://www.github.com/skeptycal>")
     print()
-    print("The type of python shell you are using is: ", HEADER,
-          py_shell(), BLUE, ".", sep='')
+    print(
+        "The type of python shell you are using is: ",
+        HEADER,
+        py_shell(),
+        BLUE,
+        ".",
+        sep="",
+    )
     print(BLUE)
     for x in version_info:
-        print("Python version part is: ", HEADER, x, BLUE, sep='')
+        print("Python version part is: ", HEADER, x, BLUE, sep="")
     print()
 
-    print("Python reports version is: ", HEADER, version_info, BLUE, sep='')
-    print("Python reports <major.minor> version is: ", HEADER, py_vers(), BLUE, sep='')
-    print("PY3 says python version is >= 3? ", HEADER, py3(), BLUE, sep='')
-    print("is_nb() reports jupyter notebook? ", HEADER, is_nb(), BLUE, sep='')
+    print("Python reports version is: ", HEADER, version_info, BLUE, sep="")
+    print("Python reports <major.minor> version is: ", HEADER, py_vers(), BLUE, sep="")
+    print("PY3 says python version is >= 3? ", HEADER, py3(), BLUE, sep="")
+    print("is_nb() reports jupyter notebook? ", HEADER, is_nb(), BLUE, sep="")
     print(RESET)
 
 
