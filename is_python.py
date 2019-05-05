@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 # -*- encoding: utf-8 -*-
-
-"""[is_python.py]
+"""[module is_python]
 
 Returns:
     py_shell():
         Returns string: Current python shell name. One of:
-            ['Ipython', 'Ipython Notebook', 'Jupyter Notebook', ‘CPython’, ‘IronPython’, ‘Jython’, ‘PyPy’, 'Shell']
+            ['Ipython', 'Ipython Notebook', 'Jupyter Notebook',
+            'CPython', 'IronPython', 'Jython', 'PyPy', 'Shell']
 
     py3():
         Returns boolean: Is python version >= 3?
@@ -16,58 +16,41 @@ Returns:
 
     is_nb():
         Returns boolean: Is python running in a Jupyter notebook?
-
 """
-# pylint: disable=locally-disabled, multiple-statements, fixme, line-too-long, unused-import, reimported, redefined-outer-name
+
 from typing import Dict, List
-import text_colors
-
-""" ╔═════ DOCBLOCK ═════╦════ CODE SUMMARY ════╗
-    ║                    ║                      ║
-    ║   => TEST INFO:    ║    is_python.py      ║
-    ║   ProductName:     ║    Mac OS X          ║
-    ║   ProductVersion:  ║    10.14.3           ║
-    ║   BuildVersion:    ║    18D109            ║
-    ║   Date:            ║    02-13-2019        ║
-    ║                    ║                      ║
-    ╚═══ LICENSE: MIT ═══╩═════ @skeptycal ═════╝
-
-    ╔═════════ Module is_python.py ════════════════════════════════════════════╗
-    ║                                                                          ║
-    ║     author      ║    Michael Treanor  <skeptycal@gmail.com>              ║
-    ║     copyright   ║    (c) 2019 Michael Treanor                            ║
-    ║     license     ║    MIT <https://opensource.org/licenses/MIT>           ║
-    ║     link        ║    http://www.github.com/skeptycal                     ║
-    ║                                                                          ║
-    ╚══════════════════════════════════════════════════════════════════════════╝
-        Determine and return python shell environment and version information.
-
-        References are at the end of the file.
-        """
+from sys import version_info
 
 
-# Initialization Section - only run once during initial import or CLI run
+def py3() -> bool:
+    """ [function py3]
 
-
-def py3():
-    """ Returns boolean: Is python version >= 3? """
+    Returns
+        [boolean] -- [True if python version >= 3 else False] """
 
     from sys import version_info
 
     return version_info[0] >= 3
 
 
-def py_vers():
-    """ Returns float: python version <major>.<minor> """
+def py_vers() -> float:
+    """[function py_vers]
 
+    Returns:
+        [float] -- [python version <major>.<minor> ]
+    """
     from sys import version_info
 
     return float(str(version_info[0]) + "." + str(version_info[1]))
 
 
-def is_nb():
-    """ Returns boolean: Is python running in a Jupyter notebook? """
+def is_nb() -> bool:
+    """ [function is_nb]
+
+    Returns
+        [boolean] -- [True if python is running in a Jupyter notebook else False] """
     from os import environ, path
+    from sys import version_info
 
     return "jupyter-notebook" in path.basename(environ["_"])
 
@@ -83,7 +66,6 @@ def py_shell():
     else:
         im_plat = True
 
-    # PY_ENV = os.environ
     py_base = path.basename(environ["_"])
 
     if "JPY_PARENT_PID" in environ:
@@ -100,19 +82,7 @@ def py_shell():
     return shell.strip()
 
 
-""" VSCode Functionality Test ...
-
-    # tested fc snippet below here ... 
-    # this is the original ... 
-    # it replaced my esc code with that little esc ...
-    # kinda cool and interesting
-
-    BG_COLOR = '\u001b[48;5;230m'
-    HEADER = '\u001b[38;5;18m' + BG_COLOR
-    BLUE = '\u001b[38;5;27m' + BG_COLOR
-    PURPLE = '\u001b[38;5;92m' + BG_COLOR
-    RESET = '\u001b[0m'
-    """
+# Initialization Section - only run once during initial import or CLI run
 
 BG_COLOR = "[48;5;230m"
 HEADER = "[38;5;18m" + BG_COLOR
@@ -147,24 +117,38 @@ if __name__ == "__main__":
     print("PY3 says python version is >= 3? ", HEADER, py3(), BLUE, sep="")
     print("is_nb() reports jupyter notebook? ", HEADER, is_nb(), BLUE, sep="")
     print(RESET)
-
-
-""" ╔═════════ Testing complete 2/14/19: ══════════════════════════════════════╗
-
-        macOS Mojave       10.14.3
-        jupyter --version    4.4.0
-        ipython --version    7.2.0
-        spyder(anaconda)     3.3.2
-        python --version     3.7.2
-        PyPy3 --version      6.0.0
     """
+# Module is_python.py
 
-""" ╔═════════ Resources: ═════════════════════════════════════════════════════╗
+    #  Michael Treanor  <skeptycal@gmail.com>
+    #  (c) 2019 Michael Treanor
+    #  MIT <https://opensource.org/licenses/MIT
+    #  http://www.github.com/skeptycal
 
-        * https://stackoverflow.com/a/53436734/9878098
-          Quote: "The following captures the cases of
-            https://stackoverflow.com/a/50234148/1491619
-            without needing to parse the output of ps"
-          -- Bob Weigel (https://stackoverflow.com/users/1491619/bob-weigel)
-        * See also https://stackoverflow.com/a/37661854
+    # Determine and return python shell environment and version information.
+
+    # => TEST INFO:    is_python.py
+    # ProductName:     Mac OS X
+    # ProductVersion:  10.14.19
+    # BuildVersion:    18D109
+    # Date:            02-13-2019
+
+    """
+""" Testing complete 2/14/19:
+
+    macOS Mojave       10.14.3
+    jupyter --version    4.4.0
+    ipython --version    7.2.0
+    spyder(anaconda)     3.3.2
+    python --version     3.7.2
+    PyPy3 --version      6.0.0
+    """
+""" Resources:
+
+    * https://stackoverflow.com/a/53436734/9878098
+        Quote: "The following captures the cases of without needing to parse
+        the output of ps"
+    * https://stackoverflow.com/a/50234148/1491619
+        -- Bob Weigel (https://stackoverflow.com/users/1491619/bob-weigel)
+    * See also https://stackoverflow.com/a/37661854
     """
