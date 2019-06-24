@@ -8,5 +8,4 @@
 
 ### MIT License
 
-
 > A small utility to return python environment information from within python.
